@@ -6,12 +6,7 @@ function Main() {
   return (
     <>
         <Grid>
-          <Grid.Col span={2}>
-              <Sidebar />
-          </Grid.Col>
-          <Grid.Col span={9}>
-
-          </Grid.Col>
+          
         </Grid>
     </>
   )

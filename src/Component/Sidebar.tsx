@@ -1,19 +1,25 @@
 import React from 'react'
-import {AiOutlineClose,AiOutlinePlus} from 'react-icons/ai'
+import {AiOutlineClose,AiOutlinePlus,AiOutlineOrderedList} from 'react-icons/ai'
 import {BsStar,BsStarFill,BsArrowUpRightCircle,BsCameraReels} from 'react-icons/bs'
 import { Button, Grid, Group,Input,Text } from '@mantine/core'
 import {MdPieChartOutline} from 'react-icons/md'
 import {IoMdHome} from 'react-icons/io'
+import {FaRegBell,FaReddit} from 'react-icons/fa'
+import {BsCoin} from 'react-icons/bs'
+import {RiShieldLine} from 'react-icons/ri'
+import {IoShirtOutline} from 'react-icons/io5'
+import {GiCrystalBall} from 'react-icons/gi'
+import {GrEmptyCircle} from 'react-icons/gr'
 
 
 
 function Sidebar() {
   return (
     <>
-    <Grid grow p='10px' style={{background:'pink'}}> 
+    <Grid grow p='10px' style={{background:'pink',height:'90vh',overflowY:'auto'}}> 
       <Grid.Col span={12} p='10px'>
         <Group position='center' align='apart'  grow>
-          <Text size='xs'>MY COMMUNITIES</Text>
+          <Text style={{fontSize:'10px'}}>MY COMMUNITIES</Text>
           <Group style={{background:'cyan'}} position='right' align='right'>
             <AiOutlineClose />
           </Group>
@@ -60,9 +66,92 @@ function Sidebar() {
             <Text size='xs'>FEED</Text>
           </Grid.Col>
           <Grid.Col span={12}>
-            <Group position='left' align='left' >
-              <IoMdHome />
+            <Group position='left' align='left' p='0 0 5px 0'>
+              <Group>
+                <IoMdHome />
+              </Group>
               <Text size='sm'>Home</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <BsArrowUpRightCircle />
+              </Group>
+              <Text size='sm'>Popular</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <MdPieChartOutline />
+              </Group>
+              <Text size='sm'>All</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <BsCameraReels />
+              </Group>
+              <Text size='sm'>Reddit Live</Text>
+            </Group>
+          </Grid.Col>
+        </Grid>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Grid>
+          <Grid.Col span={12}>
+            <Text size='xs'>OTHER</Text>
+          </Grid.Col>
+          <Grid.Col span={12}>
+              <Group position='left' align='left' p='0 0 5px 0'>
+                <Group>
+                  <FaReddit />
+                </Group>
+              <Text size='sm'>User Settings</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <FaReddit />
+              </Group>
+              <Text size='sm'>Messages</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <AiOutlinePlus />
+              </Group>
+              <Text size='sm'>Create Posts</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <AiOutlineOrderedList />
+              </Group>
+              <Text size='sm'>Top Communities</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <BsCoin />
+              </Group>
+              <Text size='sm'>Coins</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <RiShieldLine />
+              </Group>
+              <Text size='sm'>Premium</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <IoShirtOutline />
+              </Group>
+              <Text size='sm'>Avatar</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <GrEmptyCircle />
+              </Group>
+              <Text size='sm'>Talk</Text>
+            </Group>
+            <Group position='left' align='left' p='5px 0'>
+              <Group>
+                <GiCrystalBall />
+              </Group>
+              <Text size='sm'>Prediction</Text>
             </Group>
           </Grid.Col>
         </Grid>

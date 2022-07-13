@@ -21,7 +21,7 @@ function App() {
             <Container size={1920} p='0' m='0' style={{background:'yellow'}} fluid>
                <NavToolBar />
                <Main />
-              </Container>
+            </Container>
         </AppShell>
    </QueryClientProvider>
    </>

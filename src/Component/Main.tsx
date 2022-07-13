@@ -1,9 +1,18 @@
+import { Grid } from '@mantine/core'
 import React from 'react'
+import Sidebar from './Sidebar'
 
 function Main() {
   return (
     <>
-        <div style={{color:'white',background:'cyan'}}>Main</div>
+        <Grid>
+          <Grid.Col span={2}>
+              <Sidebar />
+          </Grid.Col>
+          <Grid.Col span={9}>
+
+          </Grid.Col>
+        </Grid>
     </>
   )
 }

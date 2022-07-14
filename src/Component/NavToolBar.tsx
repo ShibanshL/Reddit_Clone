@@ -14,10 +14,10 @@ import {MdPieChartOutline} from 'react-icons/md'
 function NavToolBar() {
   return (
     <>
-      <Grid p='10px' style={{background:'#1a1a1b', borderBottom:'2px solid rgba(255,255,255,0.2)', position:'relative', zIndex:'1'}}>
+      <Grid p='10px' style={{background:'#1a1a1b', borderBottom:'2px solid rgba(255,255,255,0.2)', zIndex:'1'}}>
         <Grid.Col style={{}} dir='row' span={2}>
           <Grid>
-            <Grid.Col p='10px' span={6} dir='row' style={{}}>
+            <Grid.Col ml='-10px' mt='5px' p='10px' span={6} dir='row' style={{}}>
               <Group position='center' align='row'>
                 <Group style={{}}>
                   <FaRedditAlien color='white' style={{cursor:'pointer'}}/>
@@ -25,7 +25,7 @@ function NavToolBar() {
                 <Text color='white'>Reddit</Text>
               </Group>
             </Grid.Col>
-            <Grid.Col p='10px' span={6} dir='row' style={{}}>
+            <Grid.Col p='10px' mt='5px' span={6} dir='row' style={{}}>
               <Group position='center' align='row'>
                 <Group>
                   <IoMdHome color='white' style={{cursor:'pointer'}}/>

@@ -30,14 +30,14 @@ function App() {
                   <Grid.Col span={2}>
                     <Sidebar />
                   </Grid.Col>
-                  <Grid.Col span={9}>
-                    <Routes>
-                      <Route path='/' element={<Main />} />
-                      <Route path='/Login' element={<Login />} />
-                      <Route path='/Meme' element={<Meme />} />
-                      <Route path='/News' element={<News />} />
-                      <Route path='/Sports' element={<Sports />} />
-                    </Routes>
+                  <Grid.Col p='10px 100px' style={{}} span={9}>
+                      <Routes>
+                        <Route path='/' element={<Main />} />
+                        <Route path='/Login' element={<Login />} />
+                        <Route path='/Meme' element={<Meme />} />
+                        <Route path='/News' element={<News />} />
+                        <Route path='/Sports' element={<Sports />} />
+                      </Routes>
                   </Grid.Col>
                 </Grid>
               </Container>

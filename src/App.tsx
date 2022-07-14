@@ -29,7 +29,7 @@ function App() {
             styles={(theme) => ({
               main: {background:'black',backgroundSize:'cover', overflowY:'auto' },
             })}>
-              <Container size={1920} p='0' m='0' style={{background:'black'}} fluid>
+              <Container size={1920} p='0' m='0' style={{background:'black',overflow:'hidden'}} fluid>
                 <NavToolBar/>
                 {num%2!=0?
                   <Grid>

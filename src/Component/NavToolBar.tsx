@@ -10,12 +10,19 @@ import {FaRegBell} from 'react-icons/fa'
 import {TbSpeakerphone} from 'react-icons/tb'
 import {AiOutlinePlus} from 'react-icons/ai'
 import {MdPieChartOutline} from 'react-icons/md'
+import {HiMenuAlt3} from 'react-icons/hi'
+import {useStore} from '../State'
 
 function NavToolBar() {
+
+  const num = useStore((state:any) => state.num)
+  const setNum = useStore((state:any) => state.setNum)
+
+
   return (
     <>
-      <Grid p='10px' style={{background:'#1a1a1b', borderBottom:'2px solid rgba(255,255,255,0.2)', zIndex:'1'}}>
-        <Grid.Col style={{}} dir='row' span={2}>
+      <Grid p='10px' style={{background:'#1a1a1b', borderBottom:'2px solid rgba(255,255,255,0.2)',position:'fixed', top:'0', width:'100%', zIndex:'1'}}>
+        <Grid.Col style={{}} dir='row' span={3}>
           <Grid>
             <Grid.Col ml='-10px' mt='5px' p='10px' span={6} dir='row' style={{}}>
               <Group position='center' align='row'>
@@ -26,16 +33,24 @@ function NavToolBar() {
               </Group>
             </Grid.Col>
             <Grid.Col p='10px' mt='5px' span={6} dir='row' style={{}}>
-              <Group position='center' align='row'>
-                <Group>
-                  <IoMdHome color='white' style={{cursor:'pointer'}}/>
+              <Group position='center' align='apart' grow>
+                <Group position='left'>
+                  <Group>
+                    <IoMdHome color='white' style={{cursor:'pointer'}}/>
+                  </Group>
+                  <Text color='white'>Home</Text>
                 </Group>
-                <Text color='white'>Home</Text>
+                <Group position='right'>
+                  {num%2==0?
+                  <HiMenuAlt3 onClick={() => {setNum()
+                    console.log('Num = ',num)}} color='white'/>:<HiMenuAlt3 onClick={() => {setNum()
+                      console.log('Num = ',num)}} color='#1a1a1b'/>}
+                </Group>
               </Group>
             </Grid.Col>
           </Grid>
         </Grid.Col>
-        <Grid.Col style={{}} span={4}>
+        <Grid.Col style={{}} span={3}>
           <Grid>
             <Grid.Col span={3}>
             </Grid.Col>

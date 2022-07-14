@@ -6,7 +6,7 @@ import {FiLink} from 'react-icons/fi'
 function Main() {
   return (
     <>
-      <Container ml='90px' p='20px' size={1400} style={{}}>
+      <Container ml='90px' pt='100px' p='20px' size={1400} style={{minHeight:'100vh'}}>
           <Grid p='10px' style={{background:'#1a1a1b',border:'2px solid rgba(255,255,255,0.2)', borderRadius:'5px'}}>
             <Grid.Col span={12}>
               <Grid>

@@ -1,10 +1,13 @@
 import React,{forwardRef} from 'react'
-import { Grid,Group, Container,Input,Tabs,Text,Select,Avatar,Textarea,Divider,Button,Checkbox } from '@mantine/core'
+import { Grid,Group, Container,Input,Tabs,Text,Select,Avatar,Textarea,Divider,Button,Checkbox  } from '@mantine/core'
 import {FiSearch,FiLink} from 'react-icons/fi'
 import {BsFilePost,BsFillImageFill,BsMic} from 'react-icons/bs'
 import {MdErrorOutline} from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import {AiOutlineOrderedList} from 'react-icons/ai'
+import { storeData } from '../firebase'
+import { ref, uploadBytes } from 'firebase/storage'
+
 
 const data=[
     { image:'https://i.pinimg.com/originals/d2/ca/5d/d2ca5d5bcb84c894739c9862a49e7820.jpg',
@@ -53,6 +56,25 @@ interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
   );
 
 function Submit() {
+    
+    const [img,setImg] = React.useState('')
+    const [title,setTitle] = React.useState('')
+    const [desc,setDesc] = React.useState('')
+    const [url,setUrl] = React.useState('')
+
+    const handleSubmit = () =>{
+        const dataRes = ref(storeData, `Data/${(new Date()).getTime()}`)
+        uploadBytes(dataRes,title,desc).then(()=>{
+            alert('Done')
+            setTitle('')
+            setDesc('')
+        })
+    }
+
+    React.useEffect(() => {
+      //
+    })
+
   return (
     <>
         <Container ml='90px' pt='100px' p='20px' size={1400} style={{minHeight:'100vh'}}>
@@ -86,10 +108,18 @@ function Submit() {
                                     <Grid grow>
                                         <Grid.Col span={12}>
                                             <Group p='10px 40px' grow>
-                                                <Input placeholder='Title' />
+                                                <Input 
+                                                    value={title}
+                                                    name='title'
+                                                    onChange={(e:any) => {setTitle(e.target.value); console.log(title)}}
+                                                    placeholder='Title' />
                                             </Group>
                                             <Group p='10px 40px' grow>
-                                                <Textarea placeholder='Text(optional)' />
+                                                <Textarea
+                                                    value={desc}
+                                                    name='desc'
+                                                    onChange={(e:any) => {setDesc(e.target.value)}}
+                                                    placeholder='Text(optional)' />
                                             </Group>
                                         </Grid.Col>
                                         <Grid.Col p='0 45px' span={12}>
@@ -98,7 +128,7 @@ function Submit() {
                                         <Grid.Col pb='20px' span={12}>
                                             <Group  p='0 40px' position='right'>
                                                 <Button radius='xl' variant='outline' size='xs' color='gray' disabled>Save Draft</Button>
-                                                <Button radius='xl' variant='outline' size='xs' color='gray'>Post</Button>
+                                                <Button radius='xl' variant='outline' size='xs' color='gray' onClick={handleSubmit}>Post</Button>
                                             </Group>
                                         </Grid.Col>
                                         <Grid.Col p='20px 45px' style={{background:'#272729'}} span={12}>
@@ -119,7 +149,11 @@ function Submit() {
                                 <Grid grow>
                                         <Grid.Col span={12} p='0 46px'>
                                             <Group p='10px 0px' grow>
-                                                <Input placeholder='Title' />
+                                                <Input 
+                                                        value={title}
+                                                        name='title'
+                                                        onChange={(e:any) => { setTitle(e.target.value); console.log(title)}}
+                                                        placeholder='Title' />
                                             </Group>
                                             <Group p='80px 0px' position='center' style={{border:'2px solid rgba(255,255,255,0.2)', borderRadius:'5px'}}>
                                                 <Text color='white'>Drag and drop images or </Text>
@@ -153,10 +187,18 @@ function Submit() {
                                     <Grid grow>
                                             <Grid.Col span={12}>
                                                 <Group p='10px 40px' grow>
-                                                    <Input placeholder='Title' />
+                                                    <Input 
+                                                        value={title}
+                                                        name='title'
+                                                        onChange={(e:any) => { setTitle(e.target.value); console.log(title)}}
+                                                        placeholder='Title' />
                                                 </Group>
                                                 <Group p='10px 40px' grow>
-                                                    <Textarea placeholder='Url' />
+                                                    <Textarea 
+                                                        value={url}
+                                                        name='url'
+                                                        onChange={(e:any) => {setUrl(e.target.value)}}
+                                                        placeholder='Url' />
                                                 </Group>
                                             </Grid.Col>
                                             <Grid.Col p='0 45px' span={12}>

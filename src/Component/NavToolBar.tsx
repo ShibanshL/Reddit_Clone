@@ -12,33 +12,39 @@ import {AiOutlinePlus} from 'react-icons/ai'
 import {MdPieChartOutline} from 'react-icons/md'
 import {HiMenuAlt3} from 'react-icons/hi'
 import {useStore} from '../State'
+import { useNavigate, Link } from 'react-router-dom'
 
 function NavToolBar() {
 
   const num = useStore((state:any) => state.num)
   const setNum = useStore((state:any) => state.setNum)
 
+  let nav = useNavigate()
+  const Home = () => {
+    nav('/')
+  }
+
 
   return (
     <>
-      <Grid p='10px' style={{background:'#1a1a1b', borderBottom:'2px solid rgba(255,255,255,0.2)',position:'fixed', top:'0', width:'100%', zIndex:'1'}}>
+      <Grid p='10px' pt='20px' style={{background:'#1a1a1b', borderBottom:'2px solid rgba(255,255,255,0.2)',position:'fixed', top:'0', width:'100%', zIndex:'1'}}>
         <Grid.Col style={{}} dir='row' span={3}>
           <Grid>
             <Grid.Col ml='-10px' mt='5px' p='10px' span={6} dir='row' style={{}}>
               <Group position='center' align='row'>
                 <Group style={{}}>
-                  <FaRedditAlien color='white' style={{cursor:'pointer'}}/>
+                  <FaRedditAlien color='white' onClick={Home} style={{cursor:'pointer'}}/>
                 </Group>
-                <Text color='white'>Reddit</Text>
+                <Text color='white'><Link to='/' style={{color:'white',textDecoration:'none'}}>Reddit</Link></Text>
               </Group>
             </Grid.Col>
             <Grid.Col p='10px' mt='5px' span={6} dir='row' style={{}}>
               <Group position='center' align='apart' grow>
                 <Group position='left'>
                   <Group>
-                    <IoMdHome color='white' style={{cursor:'pointer'}}/>
+                    <IoMdHome color='white' onClick={Home} style={{cursor:'pointer'}}/>
                   </Group>
-                  <Text color='white'>Home</Text>
+                  <Text><Link to='/' style={{color:'white',textDecoration:'none'}}>Home</Link></Text>
                 </Group>
                 <Group position='right'>
                   {num%2==0?

@@ -2,8 +2,15 @@ import { Grid,Group, Container,Input } from '@mantine/core'
 import React from 'react'
 import {BsFillImageFill} from 'react-icons/bs'
 import {FiLink} from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 function Main() {
+
+  let nav = useNavigate()
+  const Submit = () => {
+    nav('/Submit')
+  }
+
   return (
     <>
       <Container ml='90px' pt='100px' p='20px' size={1400} style={{minHeight:'100vh'}}>
@@ -18,14 +25,15 @@ function Main() {
                 <Grid.Col span={10} >
                   <Group pt='5px' grow>
                     <Input 
+                      onClick={Submit}
                       placeholder="Create Post"
                     />
                   </Group>
                 </Grid.Col>
                 <Grid.Col span={1}>
                   <Group pt='15px' grow>
-                    <BsFillImageFill color='white'/>
-                    <FiLink color='white'/>
+                    <BsFillImageFill onClick={Submit} color='white' style={{cursor:'pointer'}} />
+                    <FiLink onClick={Submit} color='white' style={{cursor:'pointer'}} />
                   </Group>
                 </Grid.Col>
                 {/* <Grid.Col span={1}>

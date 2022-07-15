@@ -11,6 +11,7 @@ import Meme from './Pages/Meme';
 import Sports from './Pages/Sports';
 import Sidebar from './Component/Sidebar';
 import {useStore} from './State'
+import Submit from './Pages/Submit';
 const reactQuery = new QueryClient()
 
 
@@ -43,6 +44,7 @@ function App() {
                           <Route path='/Meme' element={<Meme />} />
                           <Route path='/News' element={<News />} />
                           <Route path='/Sports' element={<Sports />} />
+                          <Route path='/Submit' element={<Submit />} />
                         </Routes>
                     </Grid.Col>
                   </Grid>
@@ -55,6 +57,7 @@ function App() {
                           <Route path='/Meme' element={<Meme />} />
                           <Route path='/News' element={<News />} />
                           <Route path='/Sports' element={<Sports />} />
+                          <Route path='/Submit' element={<Submit />} />
                         </Routes>
                     </Grid.Col>
                 </Grid>

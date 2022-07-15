@@ -57,18 +57,18 @@ interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
 
 function Submit() {
     
-    const [img,setImg] = React.useState('')
+    // const [img,setImg] = React.useState<Blob | Uint8Array | ArrayBuffer>(null)
     const [title,setTitle] = React.useState('')
     const [desc,setDesc] = React.useState('')
     const [url,setUrl] = React.useState('')
 
     const handleSubmit = () =>{
         const dataRes = ref(storeData, `Data/${(new Date()).getTime()}`)
-        uploadBytes(dataRes,title,desc).then(()=>{
-            alert('Done')
-            setTitle('')
-            setDesc('')
-        })
+        // uploadBytes(dataRes,img).then(()=>{
+        //     alert('Done')
+        //     setTitle('')
+        //     setDesc('')
+        // })
     }
 
     React.useEffect(() => {

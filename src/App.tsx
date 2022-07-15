@@ -27,7 +27,7 @@ function App() {
           <AppShell
             padding={0}
             styles={(theme) => ({
-              main: {background:'black',backgroundSize:'cover', overflowY:'auto' },
+              main: {background:'black',backgroundSize:'cover' },
             })}>
               <Container size={1920} p='0' m='0' style={{background:'black',overflow:'hidden'}} fluid>
                 <NavToolBar/>

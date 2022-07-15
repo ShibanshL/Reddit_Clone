@@ -43,7 +43,7 @@ function NavToolBar() {
                 <Group position='right'>
                   {num%2==0?
                   <HiMenuAlt3 onClick={() => {setNum()
-                    console.log('Num = ',num)}} color='white'/>:<HiMenuAlt3 onClick={() => {setNum()
+                    console.log('Num = ',num)}} style={{cursor:'pointer'}} color='white'/>:<HiMenuAlt3 onClick={() => {setNum()
                       console.log('Num = ',num)}} color='#1a1a1b'/>}
                 </Group>
               </Group>

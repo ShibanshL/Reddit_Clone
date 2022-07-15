@@ -21,12 +21,12 @@ function Sidebar() {
   return (
     <>
       <MediaQuery query="(max-width: 500px)" styles={{display:'none'}}>
-        <Grid grow p='10px' mt='2px' style={{background:'#1a1a1b',height:'90vh',overflowY:'auto',position:'fixed',top:'62px', left:'0', width:'15%'}}> 
+        <Grid grow p='10px' mt='2px' style={{background:'#1a1a1b',height:'90vh',overflowY:'auto',position:'fixed',top:'62px', left:'0', width:'18%'}}> 
           <Grid.Col span={12} p='10px'>
             <Group position='center' align='apart'  grow>
               <Text color='white' style={{fontSize:'10px'}}>MY COMMUNITIES</Text>
               <Group style={{}} position='right' align='right'>
-                <AiOutlineClose onClick={setNum} color='white'/>
+                <AiOutlineClose onClick={setNum} style={{cursor:'pointer'}} color='white'/>
               </Group>
             </Group>
           </Grid.Col>

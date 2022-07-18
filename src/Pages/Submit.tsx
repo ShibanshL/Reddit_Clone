@@ -58,11 +58,37 @@ interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
 function Submit() {
     
     // const [img,setImg] = React.useState<Blob | Uint8Array | ArrayBuffer>(null)
-    const [title,setTitle] = React.useState('')
-    const [desc,setDesc] = React.useState('')
-    const [url,setUrl] = React.useState('')
+    const [post, setPost] = React.useState({
+        title:'',
+        desc:''
+    })
 
-    const handleSubmit = () =>{
+    const [postSub, setPostSub] = React.useState({
+        sub_title:'',
+        sub_desc:''
+    })
+
+    const [postImg,setPostImg] = React.useState({
+        img_title:'',
+        img_url:''
+    })
+    
+    const [postImgSub, setPostImgSUb] = React.useState({
+        sub_img_title:'',
+        sub_img_url:''
+    })
+
+    const [postLink, setPostLink] = React.useState({
+        post_title:'',
+        post_Llnk:''
+    })
+
+    const [postLinkSub, setPostLinkSub] = React.useState({
+        sub_post_title:'',
+        sub_post_Llnk:''
+    })
+
+    const handleSubmit_Old = () =>{
         const dataRes = ref(storeData, `Data/${(new Date()).getTime()}`)
         // uploadBytes(dataRes,img).then(()=>{
         //     alert('Done')
@@ -71,9 +97,134 @@ function Submit() {
         // })
     }
 
-    React.useEffect(() => {
-      //
-    })
+    //All the handle change functions are here
+
+    const handleChange_Post = (e: { target: { name: any; value: any } }) => {
+        setPost({
+            ...post,
+            [e.target.name]:e.target.value
+        })
+    }
+
+    const handleChange_Img = (e: { target: { name: any; value: any } }) => {
+        setPostImg({
+            ...postImg,
+            [e.target.name]:e.target.value
+        })
+    }
+
+    const handleChange_Link = (e: { target: { name: any; value: any } }) => {
+        setPostLink({
+            ...postLink,
+            [e.target.name]:e.target.value
+        })
+    }
+
+    //Firebase Submit part
+
+    const postSubmit = async () => {
+
+        var title = postSub.sub_title
+        var desc = postSub.sub_desc
+
+        const res = await fetch('https://reddit-clone-83f7f-default-rtdb.firebaseio.com/postSubmit.json',
+        {
+            method:'POST',
+            headers:{
+               'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                title,desc
+            })
+        })
+    }
+
+    const postImgSubmit = async () => {
+        var title = postImg.img_title
+        var desc = postImg.img_url
+
+        const res = await fetch('https://reddit-clone-83f7f-default-rtdb.firebaseio.com/postImg.json',
+        {
+            method:'POST',
+            headers:{
+               'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                title,desc
+            })
+        })
+    }
+
+    const postLinkSubmit = async () => {
+        var title = postLink.post_title
+        var desc = postLink.post_Llnk
+
+        const res = await fetch('https://reddit-clone-83f7f-default-rtdb.firebaseio.com/postLink.json',
+        {
+            method:'POST',
+            headers:{
+               'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                title,desc
+            })
+        })
+    }
+
+
+    //Submit Function is here
+
+    const handleSubmit = () => {
+
+        if(post.desc.length != 0 && post.title.length !=0 && postImg.img_title.length == 0 && postImg.img_url.length == 0 && postLink.post_title.length == 0 && postLink.post_Llnk.length == 0){
+
+            setPostSub({
+                sub_title:post.title,
+                sub_desc:post.desc
+            })
+
+            postSubmit()
+
+            setPost({
+                title:'',
+                desc:''
+            })
+
+        }
+
+        else if(postImg.img_title.length != 0 && postImg.img_url.length != 0 && post.desc.length == 0 && post.title.length ==0 && postLink.post_title.length == 0 && postLink.post_Llnk.length == 0){
+
+            setPostImg({
+                img_title:postImg.img_title,
+                img_url:postImg.img_url
+            })
+
+            postImgSubmit()
+
+            setPostImg({
+                img_title:'',
+                img_url:''
+            })
+
+        }
+
+        else if(postLink.post_title.length != 0 && postLink.post_Llnk.length != 0 && post.desc.length == 0 && post.title.length == 0 && postImg.img_title.length == 0 && postImg.img_url.length == 0){
+
+            setPostLinkSub({
+                sub_post_Llnk:postLink.post_Llnk,
+                sub_post_title:postLink.post_title
+            })
+
+            postLinkSubmit()
+
+            setPostLink({
+                post_Llnk:'',
+                post_title:''
+            })
+        }
+    } 
+
+    
 
   return (
     <>
@@ -109,16 +260,16 @@ function Submit() {
                                         <Grid.Col span={12}>
                                             <Group p='10px 40px' grow>
                                                 <Input 
-                                                    value={title}
+                                                    value={post.title}
                                                     name='title'
-                                                    onChange={(e:any) => {setTitle(e.target.value); console.log(title)}}
+                                                    onChange={(e:any) => {handleChange_Post(e); console.log(post.title)}}
                                                     placeholder='Title' />
                                             </Group>
                                             <Group p='10px 40px' grow>
                                                 <Textarea
-                                                    value={desc}
+                                                    value={post.desc}
                                                     name='desc'
-                                                    onChange={(e:any) => {setDesc(e.target.value)}}
+                                                    onChange={(e:any) => {handleChange_Post(e); console.log(post.desc)}}
                                                     placeholder='Text(optional)' />
                                             </Group>
                                         </Grid.Col>
@@ -150,9 +301,9 @@ function Submit() {
                                         <Grid.Col span={12} p='0 46px'>
                                             <Group p='10px 0px' grow>
                                                 <Input 
-                                                        value={title}
-                                                        name='title'
-                                                        onChange={(e:any) => { setTitle(e.target.value); console.log(title)}}
+                                                        value={postImg.img_title}
+                                                        name='img_title'
+                                                        onChange={(e:any) => { handleChange_Img(e); console.log(postImg.img_title)}}
                                                         placeholder='Title' />
                                             </Group>
                                             <Group p='80px 0px' position='center' style={{border:'2px solid rgba(255,255,255,0.2)', borderRadius:'5px'}}>
@@ -188,16 +339,16 @@ function Submit() {
                                             <Grid.Col span={12}>
                                                 <Group p='10px 40px' grow>
                                                     <Input 
-                                                        value={title}
-                                                        name='title'
-                                                        onChange={(e:any) => { setTitle(e.target.value); console.log(title)}}
+                                                        value={postLink.post_title}
+                                                        name='post_title'
+                                                        onChange={(e:any) => { handleChange_Link(e); console.log(postLink.post_title)}}
                                                         placeholder='Title' />
                                                 </Group>
                                                 <Group p='10px 40px' grow>
                                                     <Textarea 
-                                                        value={url}
-                                                        name='url'
-                                                        onChange={(e:any) => {setUrl(e.target.value)}}
+                                                        value={postLink.post_Llnk}
+                                                        name='post_Llnk'
+                                                        onChange={(e:any) => { handleChange_Link(e); console.log(postLink.post_Llnk)}}
                                                         placeholder='Url' />
                                                 </Group>
                                             </Grid.Col>

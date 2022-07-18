@@ -12,6 +12,7 @@ import Sports from './Pages/Sports';
 import Sidebar from './Component/Sidebar';
 import {useStore} from './State'
 import Submit from './Pages/Submit';
+import SignUp from './Authenticate/SignUp';
 const reactQuery = new QueryClient()
 
 
@@ -31,7 +32,7 @@ function App() {
               main: {background:'black',backgroundSize:'cover' },
             })}>
               <Container size={1920} p='0' m='0' style={{background:'black',overflow:'hidden'}} fluid>
-                <NavToolBar/>
+                {window.location.href !='http://localhost:3000/Login' && window.location.href != 'http://localhost:3000/Signup'?<NavToolBar/>: ''}
                 {num%2!=0?
                   <Grid>
                     <Grid.Col span={2}>
@@ -53,7 +54,6 @@ function App() {
                     <Grid.Col p='10px 300px' style={{}} span={12}>
                         <Routes>
                           <Route path='/' element={<Main />} />
-                          <Route path='/Login' element={<Login />} />
                           <Route path='/Meme' element={<Meme />} />
                           <Route path='/News' element={<News />} />
                           <Route path='/Sports' element={<Sports />} />
@@ -63,6 +63,10 @@ function App() {
                 </Grid>
                 }
               </Container>
+              <Routes>
+                <Route path='/Login' element={<Login />} />
+                <Route path='/Signup' element={<SignUp />} />
+              </Routes>
           </AppShell>
         </Router>
    </QueryClientProvider>

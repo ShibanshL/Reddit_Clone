@@ -1,13 +1,16 @@
 import React,{forwardRef} from 'react'
-import { Grid,Group, Container,Input,Tabs,Text,Select,Avatar,Textarea,Divider,Button,Checkbox  } from '@mantine/core'
+import { Grid,Group, Container,Input,Tabs,Text,Select,Avatar,Textarea,Divider,Button,Checkbox } from '@mantine/core'
 import {FiSearch,FiLink} from 'react-icons/fi'
 import {BsFilePost,BsFillImageFill,BsMic} from 'react-icons/bs'
 import {MdErrorOutline} from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import {AiOutlineOrderedList} from 'react-icons/ai'
 import { storeData } from '../firebase'
-import { ref, uploadBytes } from 'firebase/storage'
+import {ref, getDownloadURL, uploadBytesResumable,uploadBytes} from 'firebase/storage'
 
+
+
+//This is just for the select option via mantine
 
 const data=[
     { image:'https://i.pinimg.com/originals/d2/ca/5d/d2ca5d5bcb84c894739c9862a49e7820.jpg',
@@ -55,13 +58,19 @@ interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
     )
   );
 
+//Select option end
+
 function Submit() {
+
+    const [progress, setProgress] = React.useState(0);
     
-    // const [img,setImg] = React.useState<Blob | Uint8Array | ArrayBuffer>(null)
+    const [img,setImg] = React.useState(null)
     const [post, setPost] = React.useState({
         title:'',
         desc:''
     })
+
+    const [id,setId] = React.useState(0)
 
     const [postSub, setPostSub] = React.useState({
         sub_title:'',
@@ -89,12 +98,14 @@ function Submit() {
     })
 
     const handleSubmit_Old = () =>{
-        const dataRes = ref(storeData, `Data/${(new Date()).getTime()}`)
-        // uploadBytes(dataRes,img).then(()=>{
-        //     alert('Done')
-        //     setTitle('')
-        //     setDesc('')
-        // })
+        setId((new Date()).getTime())
+        const dataRes = ref(storeData, `Data/${id}`)
+        // var data:any = {img,img_title}
+        uploadBytes(dataRes,img).then(()=>{
+            alert('Done')
+            // setTitle('')
+            // setDesc('')
+        })
     }
 
     //All the handle change functions are here
@@ -124,8 +135,8 @@ function Submit() {
 
     const postSubmit = async () => {
 
-        var title = postSub.sub_title
-        var desc = postSub.sub_desc
+        var title = post.title
+        var desc = post.desc
 
         const res = await fetch('https://reddit-clone-83f7f-default-rtdb.firebaseio.com/postSubmit.json',
         {
@@ -137,11 +148,17 @@ function Submit() {
                 title,desc
             })
         })
+        
+        setPost({
+                    title:'',
+                    desc:''
+                })
+
     }
 
     const postImgSubmit = async () => {
         var title = postImg.img_title
-        var desc = postImg.img_url
+        var desc = id
 
         const res = await fetch('https://reddit-clone-83f7f-default-rtdb.firebaseio.com/postImg.json',
         {
@@ -153,6 +170,14 @@ function Submit() {
                 title,desc
             })
         })
+
+        handleSubmit_Old()
+
+            setPostImg({
+                img_title:'',
+                img_url:''
+            })
+
     }
 
     const postLinkSubmit = async () => {
@@ -169,60 +194,95 @@ function Submit() {
                 title,desc
             })
         })
+
+        setPostLink({
+                        post_Llnk:'',
+                        post_title:''
+                    })
+
     }
 
 
+    const formHandler = (e:any) => {
+        e.preventDefault();
+        const file:any = e.target[0].files[0];
+        uploadFiles(file);
+      };
+
+    const uploadFiles = (file:any) => {
+        //
+        if (!file) return;
+        const sotrageRef = ref(storeData, `files/${file.name}`);
+        const uploadTask = uploadBytesResumable(sotrageRef, file);
+    
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const prog = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(prog);
+          },
+          (error) => console.log(error),
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("File available at", downloadURL);
+            });
+          }
+        );
+      };
+
     //Submit Function is here
 
-    const handleSubmit = () => {
+    // const handleSubmit = () => {
 
-        if(post.desc.length != 0 && post.title.length !=0 && postImg.img_title.length == 0 && postImg.img_url.length == 0 && postLink.post_title.length == 0 && postLink.post_Llnk.length == 0){
+    //     if(post.desc.length != 0 && post.title.length !=0 && postImg.img_title.length == 0 && postImg.img_url.length == 0 && postLink.post_title.length == 0 && postLink.post_Llnk.length == 0){
 
-            setPostSub({
-                sub_title:post.title,
-                sub_desc:post.desc
-            })
+    //         setPostSub({
+    //             sub_title:post.title,
+    //             sub_desc:post.desc
+    //         })
 
-            postSubmit()
+    //         postSubmit()
 
-            setPost({
-                title:'',
-                desc:''
-            })
+    //         setPost({
+    //             title:'',
+    //             desc:''
+    //         })
 
-        }
+    //     }
 
-        else if(postImg.img_title.length != 0 && postImg.img_url.length != 0 && post.desc.length == 0 && post.title.length ==0 && postLink.post_title.length == 0 && postLink.post_Llnk.length == 0){
+    //     else if(postImg.img_title.length != 0 && postImg.img_url.length != 0 && post.desc.length == 0 && post.title.length ==0 && postLink.post_title.length == 0 && postLink.post_Llnk.length == 0){
 
-            setPostImg({
-                img_title:postImg.img_title,
-                img_url:postImg.img_url
-            })
+    //         setPostImg({
+    //             img_title:postImg.img_title,
+    //             img_url:postImg.img_url
+    //         })
 
-            postImgSubmit()
+    //         postImgSubmit()
 
-            setPostImg({
-                img_title:'',
-                img_url:''
-            })
+    //         setPostImg({
+    //             img_title:'',
+    //             img_url:''
+    //         })
 
-        }
+    //     }
 
-        else if(postLink.post_title.length != 0 && postLink.post_Llnk.length != 0 && post.desc.length == 0 && post.title.length == 0 && postImg.img_title.length == 0 && postImg.img_url.length == 0){
+    //     else if(postLink.post_title.length != 0 && postLink.post_Llnk.length != 0 && post.desc.length == 0 && post.title.length == 0 && postImg.img_title.length == 0 && postImg.img_url.length == 0){
 
-            setPostLinkSub({
-                sub_post_Llnk:postLink.post_Llnk,
-                sub_post_title:postLink.post_title
-            })
+    //         setPostLinkSub({
+    //             sub_post_Llnk:postLink.post_Llnk,
+    //             sub_post_title:postLink.post_title
+    //         })
 
-            postLinkSubmit()
+    //         postLinkSubmit()
 
-            setPostLink({
-                post_Llnk:'',
-                post_title:''
-            })
-        }
-    } 
+    //         setPostLink({
+    //             post_Llnk:'',
+    //             post_title:''
+    //         })
+    //     }
+    // } 
 
     
 
@@ -279,7 +339,7 @@ function Submit() {
                                         <Grid.Col pb='20px' span={12}>
                                             <Group  p='0 40px' position='right'>
                                                 <Button radius='xl' variant='outline' size='xs' color='gray' disabled>Save Draft</Button>
-                                                <Button radius='xl' variant='outline' size='xs' color='gray' onClick={handleSubmit}>Post</Button>
+                                                <Button radius='xl' variant='outline' size='xs' color='gray' onClick={postSubmit}>Post</Button>
                                             </Group>
                                         </Grid.Col>
                                         <Grid.Col p='20px 45px' style={{background:'#272729'}} span={12}>
@@ -306,9 +366,10 @@ function Submit() {
                                                         onChange={(e:any) => { handleChange_Img(e); console.log(postImg.img_title)}}
                                                         placeholder='Title' />
                                             </Group>
-                                            <Group p='80px 0px' position='center' style={{border:'2px solid rgba(255,255,255,0.2)', borderRadius:'5px'}}>
-                                                <Text color='white'>Drag and drop images or </Text>
-                                                <Button radius='xl' variant='outline' size='xs' color='gray'>Upload</Button>
+                                            <Group p='' position='center' style={{border:'2px solid rgba(255,255,255,0.2)', borderRadius:'5px'}}>
+                                                {/* <Text color='white'>Drag and drop images or </Text> */}
+                                                <Input onChange={(event:any) => {setImg(event.target.files[0]);}} type='file' placeholder='Drag and drop images or video' style={{color:'white'}}/>
+                                                <Button radius='xl' onClick={handleSubmit_Old} variant='outline' size='xs' color='gray'>Upload</Button>
                                             </Group>
                                         </Grid.Col>
                                         <Grid.Col p='0 45px' span={12}>
@@ -317,7 +378,7 @@ function Submit() {
                                         <Grid.Col pb='20px' span={12}>
                                             <Group  p='0 40px' position='right'>
                                                 <Button radius='xl' variant='outline' size='xs' color='gray' disabled>Save Draft</Button>
-                                                <Button radius='xl' variant='outline' size='xs' color='gray'>Post</Button>
+                                                <Button radius='xl' variant='outline' size='xs' color='gray' onClick={postImgSubmit}>Post</Button>
                                             </Group>
                                         </Grid.Col>
                                         <Grid.Col p='20px 45px' style={{background:'#272729'}} span={12}>
@@ -358,7 +419,7 @@ function Submit() {
                                             <Grid.Col pb='20px' span={12}>
                                                 <Group  p='0 40px' position='right'>
                                                     <Button radius='xl' variant='outline' size='xs' color='gray' disabled>Save Draft</Button>
-                                                    <Button radius='xl' variant='outline' size='xs' color='gray'>Post</Button>
+                                                    <Button radius='xl' variant='outline' size='xs' color='gray' onClick={postLinkSubmit}>Post</Button>
                                                 </Group>
                                             </Grid.Col>
                                             <Grid.Col p='20px 45px' style={{background:'#272729'}} span={12}>

@@ -24,6 +24,7 @@ function NavToolBar() {
     nav('/')
   }
 
+  var c = 1
 
   return (
     <>
@@ -67,6 +68,8 @@ function NavToolBar() {
             </Grid.Col>
           </Grid>
         </Grid.Col>
+
+        {c%2 == 0?
         <Grid.Col style={{}} span={6}>
           <Grid grow>
             <Grid.Col span={6} style={{}}>
@@ -120,6 +123,19 @@ function NavToolBar() {
             </Grid.Col>
           </Grid>
         </Grid.Col>
+        :
+        <Grid.Col span={6}>
+        <Group position='right' pr='40px'>
+          <Group>
+            <Button radius='xl' color='gray' variant='outline' onClick={() => nav('/Login')}>Login</Button>
+          </Group>
+          <Group>
+            <Button radius='xl' color='gray' variant='outline' onClick={() => nav('/Signup')}>Signuip</Button>
+          </Group>
+        </Group>
+        </Grid.Col>
+        }
+
       </Grid>
     </>
   )

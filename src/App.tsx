@@ -32,7 +32,8 @@ function App() {
               main: {background:'black',backgroundSize:'cover' },
             })}>
               <Container size={1920} p='0' m='0' style={{background:'black',overflow:'hidden'}} fluid>
-                {window.location.href !='http://localhost:3000/Login' && window.location.href != 'http://localhost:3000/Signup'?<NavToolBar/>: ''}
+                {/* {window.location.href !='http://localhost:3000/Login' && window.location.href != 'http://localhost:3000/Signup'?<NavToolBar/>: ''} */}
+                <NavToolBar/>
                 {num%2!=0?
                   <Grid>
                     <Grid.Col span={2}>

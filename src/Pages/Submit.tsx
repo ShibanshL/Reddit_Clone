@@ -7,29 +7,30 @@ import { Link } from 'react-router-dom'
 import {AiOutlineOrderedList} from 'react-icons/ai'
 import { storeData } from '../firebase'
 import {ref, getDownloadURL, uploadBytesResumable,uploadBytes} from 'firebase/storage'
-
+import { collection, addDoc,setDoc,doc } from "firebase/firestore";
+import { db } from '../firebase'
 
 
 //This is just for the select option via mantine
 
 const data=[
     { image:'https://i.pinimg.com/originals/d2/ca/5d/d2ca5d5bcb84c894739c9862a49e7820.jpg',
-      value: 'U/MYacName', 
+      value: 'MYacName', 
       label: 'U/MYacName', 
       group: 'YOUR PROFILE' },
 
     { image:'https://th.bing.com/th/id/R.0b6724f2e1deac8c980fbbee3f8eef02?rik=bWCtdZEK6Wyajg&riu=http%3a%2f%2fgetwallpapers.com%2fwallpaper%2ffull%2f1%2f7%2f0%2f329845.jpg&ehk=8olme3cDzJrP4%2bXeWn8v8ejglVnuecfDhMBOPWUyaNc%3d&risl=&pid=ImgRaw&r=0',
-      value: 'u/Meme', 
+      value: 'Meme', 
       label: 'u/Meme', 
       group: 'YOUR COMMUNITIES' },
 
     { image:'https://static.vecteezy.com/system/resources/previews/001/213/871/non_2x/breaking-news-background-design-vector.jpg',
-      value: 'u/News', 
+      value: 'News', 
       label: 'u/News', 
       group: 'YOUR COMMUNITIES' },
 
     { image:'https://cdn.funcheap.com/wp-content/uploads/2017/12/sports1.png',
-      value: 'u/Sports', 
+      value: 'Sports', 
       label: 'u/Sports', 
       group: 'YOUR COMMUNITIES' },
 
@@ -63,6 +64,8 @@ interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
 function Submit() {
 
     const [progress, setProgress] = React.useState(0);
+
+    const [page,setPage] = React.useState('')
     
     const [img,setImg] = React.useState(null)
     const [post, setPost] = React.useState({
@@ -96,6 +99,35 @@ function Submit() {
         sub_post_title:'',
         sub_post_Llnk:''
     })
+
+    const new_sub = async() => {
+
+        const docRef = doc(db,'posttData',`/id=${(new Date()).getTime()}/page=${page}/post=${post.title}`)
+        const payLoad = {title:post.title,desc:post.desc}
+        await setDoc(docRef,payLoad)
+        alert('Done')
+
+    }
+
+    const new_sub_1 = async() => {
+
+        const docRef = doc(db,'PostLink',`/id=${(new Date()).getTime()}/page=${page}/post=${postLink.post_title}`)
+        const payLoad = {title:postLink.post_title,desc:postLink.post_Llnk}
+        await setDoc(docRef,payLoad)
+        alert('Done')
+
+    }
+
+    const new_sub_2 = async() => {
+
+        handleSubmit_Old()
+
+        const docRef = doc(db,'postImage',`/id=${(new Date()).getTime()}/page=${page}/post=${postImg.img_title}`)
+        const payLoad = {title:postImg.img_title}
+        await setDoc(docRef,payLoad)
+        alert('Done better')
+
+    }
 
     const handleSubmit_Old = () =>{
         setId((new Date()).getTime())
@@ -309,6 +341,7 @@ function Submit() {
                           item.description.toLowerCase().includes(value.toLowerCase().trim())
                         }
                         icon={<FiSearch />}
+                        onChange={(e) => setPage(e)}
                     />
                 </Grid.Col>
                 <Grid.Col span={12}>
@@ -339,7 +372,7 @@ function Submit() {
                                         <Grid.Col pb='20px' span={12}>
                                             <Group  p='0 40px' position='right'>
                                                 <Button radius='xl' variant='outline' size='xs' color='gray' disabled>Save Draft</Button>
-                                                <Button radius='xl' variant='outline' size='xs' color='gray' onClick={postSubmit}>Post</Button>
+                                                <Button radius='xl' variant='outline' size='xs' color='gray' onClick={new_sub}>Post</Button>
                                             </Group>
                                         </Grid.Col>
                                         <Grid.Col p='20px 45px' style={{background:'#272729'}} span={12}>
@@ -378,7 +411,7 @@ function Submit() {
                                         <Grid.Col pb='20px' span={12}>
                                             <Group  p='0 40px' position='right'>
                                                 <Button radius='xl' variant='outline' size='xs' color='gray' disabled>Save Draft</Button>
-                                                <Button radius='xl' variant='outline' size='xs' color='gray' onClick={postImgSubmit}>Post</Button>
+                                                <Button radius='xl' variant='outline' size='xs' color='gray' onClick={new_sub_2}>Post</Button>
                                             </Group>
                                         </Grid.Col>
                                         <Grid.Col p='20px 45px' style={{background:'#272729'}} span={12}>
@@ -419,7 +452,7 @@ function Submit() {
                                             <Grid.Col pb='20px' span={12}>
                                                 <Group  p='0 40px' position='right'>
                                                     <Button radius='xl' variant='outline' size='xs' color='gray' disabled>Save Draft</Button>
-                                                    <Button radius='xl' variant='outline' size='xs' color='gray' onClick={postLinkSubmit}>Post</Button>
+                                                    <Button radius='xl' variant='outline' size='xs' color='gray' onClick={new_sub_1}>Post</Button>
                                                 </Group>
                                             </Grid.Col>
                                             <Grid.Col p='20px 45px' style={{background:'#272729'}} span={12}>

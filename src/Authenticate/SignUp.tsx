@@ -3,7 +3,7 @@ import { useForm } from '@mantine/form';
 import { TextInput, Text, Button, Group, Center, Container, Loader, Notification } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import {BsEyeFill,BsEyeSlashFill} from 'react-icons/bs'
-
+import { db } from '../firebase';
 
 
 var k = 0
@@ -15,10 +15,12 @@ function SignUp() {
   const form = useForm({
     initialValues: {
       email: '',
-      password:'',
+      userName:'',
+      password:''
     },
     validate: {
-        email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+        email : (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+        userName : (value) => (value.length < 4)? 'Please Enter a biggger Password' : null,
         password : (value) => (value.length < 4)? 'Please Enter a biggger Password' : null
       },
     });
@@ -50,6 +52,17 @@ function SignUp() {
                   {...form.getInputProps('email')}
                   
                   />
+
+                  <TextInput
+                  required
+                  label="Username"
+                  placeholder="Write a unique name"
+                  radius="xl"
+                  p='5px'
+                  {...form.getInputProps('userName')}
+                  
+                  />
+
                   <TextInput
                   required
                   type={pass}

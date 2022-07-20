@@ -102,19 +102,29 @@ function Submit() {
 
     const new_sub = async() => {
 
-        const docRef = doc(db,'posttData',`/id=${(new Date()).getTime()}/page=${page}/post=${post.title}`)
+        const docRef = doc(db,'postData',`/id=${(new Date()).getTime()}/page=${page}/post=${post.title}`)
         const payLoad = {title:post.title,desc:post.desc}
         await setDoc(docRef,payLoad)
         alert('Done')
+
+        setPost({
+            title:'',
+            desc:''
+        })
 
     }
 
     const new_sub_1 = async() => {
 
-        const docRef = doc(db,'PostLink',`/id=${(new Date()).getTime()}/page=${page}/post=${postLink.post_title}`)
+        const docRef = doc(db,'postLink',`/id=${(new Date()).getTime()}/page=${page}/post=${postLink.post_title}`)
         const payLoad = {title:postLink.post_title,desc:postLink.post_Llnk}
         await setDoc(docRef,payLoad)
         alert('Done')
+
+        setPostLink({
+            post_Llnk:'',
+            post_title:''
+        })
 
     }
 
@@ -126,6 +136,12 @@ function Submit() {
         const payLoad = {title:postImg.img_title}
         await setDoc(docRef,payLoad)
         alert('Done better')
+
+        setPostImg({
+            img_title:'',
+            img_url:''
+        })
+
 
     }
 

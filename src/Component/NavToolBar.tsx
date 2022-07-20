@@ -6,23 +6,53 @@ import {FiSearch} from 'react-icons/fi'
 import {BsArrowUpRightCircle} from 'react-icons/bs'
 import {TbMessageCircle} from 'react-icons/tb'
 import {BsCameraReels} from 'react-icons/bs'
-import {FaRegBell} from 'react-icons/fa'
+import {FaRegBell,FaPowerOff} from 'react-icons/fa'
 import {TbSpeakerphone} from 'react-icons/tb'
 import {AiOutlinePlus} from 'react-icons/ai'
 import {MdPieChartOutline} from 'react-icons/md'
 import {HiMenuAlt3} from 'react-icons/hi'
-import {useStore} from '../State'
+import {useStore, useStore_1} from '../State'
 import { useNavigate, Link } from 'react-router-dom'
+import {collection,  query,  onSnapshot,  doc,  updateDoc,  deleteDoc,} from "firebase/firestore";
+import { db } from '../firebase'
 
 function NavToolBar() {
 
   const num = useStore((state:any) => state.num)
   const setNum = useStore((state:any) => state.setNum)
 
+  const [users,setUsers] = React.useState([])
+  const [myacc,setMyAcc] = React.useState()
+
+  let log = window.localStorage.getItem('Data')
+
+  const id = useStore_1(state => state.Id)
+
   let nav = useNavigate()
   const Home = () => {
     nav('/')
   }
+
+  const Logout = () => {
+    // window.localStorage.setItem('Data','')
+    // log=null
+    window.localStorage.removeItem('Data')
+    // console.log('log =',log)
+  }
+
+  React.useEffect(() => { 
+    const q = query(collection(db, "Account_Data"));
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      let todosArray:any[] = [];
+      querySnapshot.forEach((doc) => {
+        todosArray.push({ ...doc.data(), id: doc.id });
+      });
+      // setTodoData(todosArray);
+      console.log("SetData =",todosArray)
+      console.log('acc id =',id)
+    });
+    return () => unsub();
+},[])
 
   var c = 1
 
@@ -69,7 +99,7 @@ function NavToolBar() {
           </Grid>
         </Grid.Col>
 
-        {c%2 == 0?
+        {num%2==0?
         <Grid.Col style={{}} span={6}>
           <Grid grow>
             <Grid.Col span={6} style={{}}>
@@ -97,7 +127,7 @@ function NavToolBar() {
                     <Group>
                       <TbSpeakerphone color='white'/>
                     </Group>
-                    <Button variant="gradient" radius='xl' gradient={{ from: 'violet', to: 'pink' }}>Shop Avatar</Button>
+                    <Button variant="gradient" radius='xl' onClick={Logout} gradient={{ from: 'violet', to: 'pink' }}>Logout</Button>
                   </Group>
                 </Grid.Col>
                 <Grid.Col span={6}>
